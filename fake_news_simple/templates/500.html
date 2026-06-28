@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Server Error - Fake News Detector{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center min-vh-100">
+    <div class="col-md-8 text-center">
+        <h1 class="display-1 fw-bold text-warning">500</h1>
+        <h2 class="mb-4">Server Error</h2>
+        <p class="lead mb-4">Something went wrong on our end. Please try again later.</p>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg">
+            <i class="bi bi-house"></i> Go to Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}

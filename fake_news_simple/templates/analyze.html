@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Analyze News - Fake News Detector{% endblock %}
+
+{% block content %}
+<h1 class="display-5 mb-4"><i class="bi bi-search"></i> Analyze News</h1>
+
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card shadow-sm mb-4">
+            <div class="card-body p-5">
+                <h5 class="card-title mb-4">Enter news article details</h5>
+                
+                <form method="POST" action="{{ url_for('analyze') }}">
+                    <div class="mb-4">
+                        <label for="title" class="form-label fw-bold">News Title</label>
+                        <input type="text" class="form-control form-control-lg" id="title" 
+                               name="title" placeholder="Enter the news headline"
+                               value="{{ title|default('') }}" required>
+                        <small class="text-muted">The main headline of the news article</small>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="content" class="form-label fw-bold">News Content</label>
+                        <textarea class="form-control" id="content" name="content" rows="8"
+                                  placeholder="Paste the full news article content here..."
+                                  style="resize: vertical; font-size: 0.95rem;">{{ content|default('') }}</textarea>
+                        <small class="text-muted">Provide the complete article text for accurate analysis</small>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100">
+                        <i class="bi bi-play-circle"></i> Analyze Article
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        {% if result %}
+        <div class="card shadow-sm">
+            <div class="card-header {% if result.label == 'Fake' %}bg-danger{% else %}bg-success{% endif %} text-white">
+                <h5 class="mb-0">
+                    {% if result.label == 'Fake' %}
+                        <i class="bi bi-exclamation-circle"></i> Fake News Detected
+                    {% else %}
+                        <i class="bi bi-check-circle"></i> Appears to be Real
+                    {% endif %}
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Prediction</h6>
+                        <h3>
+                            {% if result.label == 'Fake' %}
+                                <span class="badge bg-danger"><i class="bi bi-x-circle"></i> FAKE</span>
+                            {% else %}
+                                <span class="badge bg-success"><i class="bi bi-check-circle"></i> REAL</span>
+                            {% endif %}
+                        </h3>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-muted">Confidence Score</h6>
+                        <h3>{{ result.confidence }}%</h3>
+                        <div class="progress mt-2">
+                            <div class="progress-bar {% if result.label == 'Fake' %}bg-danger{% else %}bg-success{% endif %}" 
+                                 style="width: {{ result.confidence }}%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i>
+                    <strong>Note:</strong> This analysis is based on machine learning models trained on sample data.
+                    Always verify information from multiple reliable sources.
+                </div>
+
+                <div class="alert {% if result.label == 'Fake' %}alert-warning{% else %}alert-success{% endif %}">
+                    {% if result.label == 'Fake' %}
+                        <strong><i class="bi bi-exclamation-triangle"></i> Caution:</strong>
+                        This article shows patterns commonly found in fake news. Be skeptical and cross-check facts
+                        with reliable sources before sharing.
+                    {% else %}
+                        <strong><i class="bi bi-check-circle"></i> This article appears credible</strong>
+                        based on language patterns, but always verify important claims with authoritative sources.
+                    {% endif %}
+                </div>
+
+                <div class="mt-3">
+                    <a href="{{ url_for('analyze') }}" class="btn btn-primary btn-sm">
+                        <i class="bi bi-arrow-repeat"></i> Analyze Another Article
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="card text-center">
+            <div class="card-body py-5">
+                <i class="bi bi-search" style="font-size: 3rem; color: #ccc;"></i>
+                <p class="text-muted mt-3">Fill in the form above to analyze an article</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

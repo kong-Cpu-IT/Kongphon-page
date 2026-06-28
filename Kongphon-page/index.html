@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio ส่วนตัว - ระบบเช็คชื่อ</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-o9N1j7kWhCw1KZkMlFzjBfQ9TGI0yP6phM0GtM6R0PA=" crossorigin="" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <p>สวัสดีครับ</p>
+        <h1>ผมชื่อ กองพล</h1>
+        <p>นักพัฒนาเว็บที่สนใจสร้างประสบการณ์ที่ใช้ง่าย สวยงาม และตอบโจทย์ผู้ใช้</p>
+        <a class="button" href="#attendance">เช็คชื่อเข้าเรียน</a>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="intro">
+        <article class="card">
+          <h2>เกี่ยวกับผม</h2>
+          <p>
+            เป็นนักพัฒนาเว็บที่มีความคิดสร้างสรรค์และทักษะในการออกแบบหน้าเว็บไซต์ ใช้ HTML, CSS, และ JavaScript เพื่อทำให้ผลงานดูเป็นมืออาชีพ
+            และใช้งานได้ง่ายบนอุปกรณ์ทุกประเภท
+          </p>
+          <p>
+            สนใจทำงานด้านเว็บไซต์ส่วนตัว ร้านค้าออนไลน์ หรือโปรเจคที่ช่วยให้ธุรกิจเติบโตได้เร็วขึ้น
+          </p>
+        </article>
+
+        <article class="card">
+          <h2>ทักษะหลัก</h2>
+          <div class="skills">
+            <div class="skill-item"><strong>HTML</strong> - สร้างโครงสร้างหน้าเว็บที่ชัดเจน</div>
+            <div class="skill-item"><strong>CSS</strong> - จัดแต่งสไตล์ให้หน้าเว็บสวยงามและตอบสนอง</div>
+            <div class="skill-item"><strong>JavaScript</strong> - เพิ่มการโต้ตอบ และฟังก์ชันการใช้งาน</div>
+            <div class="skill-item"><strong>Responsive Design</strong> - รองรับมือถือและแท็บเล็ต</div>
+          </div>
+        </article>
+      </section>
+
+      <section class="card">
+        <h2>ผลงานเด่น</h2>
+        <div class="projects">
+          <div class="project-item">
+            <h3>เว็บไซต์โปรไฟล์ส่วนตัว</h3>
+            <p>ออกแบบหน้า portfolio ที่แสดงข้อมูลประวัติ ทักษะ และผลงานพร้อม UX ที่อ่านง่าย</p>
+          </div>
+          <div class="project-item">
+            <h3>ระบบร้านค้าออนไลน์</h3>
+            <p>พัฒนาเว็บขายสินค้าออนไลน์ พร้อมระบบตะกร้าสินค้าและฟอร์มติดต่อ</p>
+          </div>
+          <div class="project-item">
+            <h3>เว็บแอปจัดการงาน</h3>
+            <p>สร้างแอปจัดการงานแบบง่าย ใช้ JavaScript และการจัดเก็บข้อมูลเบื้องต้น</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="attendance" class="card">
+        <h2>ระบบเช็คชื่อด้วยโลเคชั่น</h2>
+        <p>ระบบนี้ใช้ API ฟรีของเบราว์เซอร์เพื่อขออนุญาตเข้าถึงตำแหน่งปัจจุบัน และตรวจสอบว่าคุณอยู่ในบริเวณ มรภ.เทพสตรี ภายในรัศมี 1 กม.</p>
+
+        <div class="map-container" id="map"></div>
+        <p class="map-note">จุดสีแดงคือจุดเช็คอิน มุมมองนี้แสดงตำแหน่งพื้นที่เช็คอินและระยะที่อนุญาต</p>
+
+        <div class="attendance-status" id="attendanceStatus">รอการเช็คชื่อ</div>
+
+        <form class="attendance-form" id="attendanceForm">
+          <label>
+            ชื่อ - สกุล
+            <input type="text" id="studentName" placeholder="เช่น กองพล ใจดี" required />
+          </label>
+          <div class="attendance-actions">
+            <button type="button" class="button" id="checkInButton">เช็คชื่อด้วยโลเคชั่น</button>
+            <button type="button" class="button button--secondary" id="clearRecordsButton">ล้างประวัติ</button>
+          </div>
+        </form>
+
+        <div class="attendance-table-wrapper">
+          <table class="attendance-table">
+            <thead>
+              <tr>
+                <th>วันที่ / เวลา</th>
+                <th>ชื่อ</th>
+                <th>สถานะ</th>
+                <th>ระยะทาง</th>
+              </tr>
+            </thead>
+            <tbody id="attendanceTableBody">
+              <tr>
+                <td colspan="4">ยังไม่มีการเช็คชื่อ</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="contact" class="card contact">
+        <h2>ติดต่อ</h2>
+        <p>หากต้องการร่วมงานหรือสอบถามเพิ่มเติม ยินดีติดต่อผ่านช่องทางด้านล่าง</p>
+        <p><strong>อีเมล:</strong> yourname@example.com</p>
+        <p><strong>โทร:</strong> 080-123-4567</p>
+        <a class="button" href="mailto:yourname@example.com">ส่งอีเมล</a>
+      </section>
+    </main>
+
+    <footer>
+      <p>Portfolio ส่วนตัว - สร้างด้วย HTML และ CSS</p>
+    </footer>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-o9N1j7kWhCw1KZkMlFzjBfQ9TGI0yP6phM0GtM6R0PA=" crossorigin=""></script>
+    <script src="attendance.js"></script>
+  </body>
+</html>
